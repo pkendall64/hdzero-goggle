@@ -6,7 +6,7 @@
 
 void esp32_init();
 void enable_esp32();
-void disable_esp32();
+void disable_esp32(bool poweroff);
 void esp32_tx(uint8_t* cmd, uint8_t cmd_len);
 void esp32_rx();
 

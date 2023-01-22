@@ -89,13 +89,12 @@ static void page_connections_on_roller(uint8_t key) {
     page_connections_reset();
 }
 
-static void elrs_status_timer(struct _lv_timer_t *timer)
-{
+static void elrs_status_timer(struct _lv_timer_t *timer) {
     char label[80];
     uint8_t status[7] = {0};
     uint16_t size = sizeof(status) - 1;
 
-    if(!msp_read_resposne(MSP_GET_BP_STATUS, &size, status)) {
+    if (!msp_read_resposne(MSP_GET_BP_STATUS, &size, status)) {
         msp_send_packet(MSP_GET_BP_STATUS, MSP_PACKET_COMMAND, 0, NULL);
         return;
     }
@@ -106,8 +105,7 @@ static void elrs_status_timer(struct _lv_timer_t *timer)
     }
 }
 
-static void page_connections_enter()
-{
+static void page_connections_enter() {
     lv_label_set_text(label_bind_status, "Not bound");
     msp_send_packet(MSP_GET_BP_STATUS, MSP_PACKET_COMMAND, 0, NULL);
     lv_timer_t *timer = lv_timer_create(elrs_status_timer, 250, NULL);
@@ -123,7 +121,7 @@ static void page_connections_on_click(uint8_t key, int sel) {
         if (g_setting.elrs.enable)
             enable_esp32();
         else
-            disable_esp32();
+            disable_esp32(true);
     } else if (sel == 1) // start ESP Wifi
     {
         lv_label_set_text(btn_wifi, "Starting...");
@@ -131,8 +129,12 @@ static void page_connections_on_click(uint8_t key, int sel) {
         lv_timer_handler();
         if (!msp_await_resposne(MSP_SET_MODE, 1, (uint8_t *)"P", 1000))
             lv_label_set_text(btn_wifi, "#FF0000 FAILED#");
-        else
+        else {
             lv_label_set_text(btn_wifi, "#00FF00 Success#");
+            // ... and start getty in case someone wants to telnet to the goggles :-)
+            disable_esp32(false);
+            system("/sbin/getty -n -L ttyS3 115200 vt100 -n -l /bin/sh &");
+        }
     } else if (sel == 2) // start ESP bind
     {
         lv_label_set_text(btn_bind, "Starting...");

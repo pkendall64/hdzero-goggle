@@ -103,11 +103,13 @@ void enable_esp32()
 	}
 }
 
-void disable_esp32()
+void disable_esp32(bool poweroff)
 {
 	if (fd_esp32 != -1) {
-		LOGI("[ESP32] Powering off");
-		gpio_set(GPIO_ESP32_EN, 0);
+		if (poweroff) {
+			LOGI("[ESP32] Powering off");
+			gpio_set(GPIO_ESP32_EN, 0);
+		}
 		stopping = true;
 		pthread_join(tid, NULL);
 		uart_close(fd_esp32);

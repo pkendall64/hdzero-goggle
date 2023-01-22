@@ -84,7 +84,7 @@ static esp_loader_error_t flash_esp32_file(char *path, uint32_t offset) {
 }
 
 static esp_loader_error_t flash_esp32() {
-    disable_esp32();
+    disable_esp32(true);
 
     esp_loader_connect_args_t config = ESP_LOADER_CONNECT_DEFAULT();
     RETURN_ON_ERROR("init", loader_port_init());
