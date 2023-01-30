@@ -51,6 +51,8 @@
 #include "ui/ui_osd_element_pos.h"
 #include "ui/ui_porting.h"
 
+#include "module/module.h"
+
 ///////////////////////////////////////////////////////////////////////////////
 // Tune channel on video mode
 #define TUNER_TIMER_LEN 30
@@ -78,16 +80,9 @@ void tune_channel(uint8_t action) {
     if (g_setting.ease.no_dial)
         return;
 
-#if defined HDZGOGGLE
-    if (g_source_info.source != SOURCE_HDZERO) {
-        return;
-    }
-
-#elif defined(HDZBOXPRO) || defined(HDZGOGGLE2)
     if (g_source_info.source != SOURCE_HDZERO && g_source_info.source != SOURCE_AV_MODULE) {
         return;
     }
-#endif
 
     LOGI("tune_channel:%d", action);
 
@@ -101,9 +96,6 @@ void tune_channel(uint8_t action) {
             tune_timer = TUNER_TIMER_LEN;
             tune_state = 2;
 
-#if defined HDZGOGGLE
-            channel = g_setting.scan.channel;
-#elif defined(HDZBOXPRO) || defined(HDZGOGGLE2)
             if (g_source_info.source == SOURCE_HDZERO) {
                 channel = g_setting.scan.channel;
             } else if (g_source_info.source == SOURCE_AV_MODULE) {
@@ -111,7 +103,6 @@ void tune_channel(uint8_t action) {
             } else {
                 return;
             }
-#endif
         }
     }
 
@@ -158,7 +149,11 @@ void tune_channel(uint8_t action) {
                 g_setting.source.analog_channel = channel;
                 ini_putl("source", "analog_channel", g_setting.source.analog_channel, SETTING_INI);
                 dvr_cmd(DVR_STOP);
+#if defined HDZGOGGLE
+                module_set_channel(channel);
+#else
                 rtc6715.set_ch(g_setting.source.analog_channel - 1);
+#endif
                 if (action == DIAL_KEY_PRESS) {
                     msp_channel_update();
                 }

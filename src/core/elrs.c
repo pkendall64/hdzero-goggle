@@ -30,6 +30,7 @@
 #include "driver/hardware.h"
 #include "driver/rtc.h"
 #include "driver/uart.h"
+#include "module/module.h"
 #include "ui/page_common.h"
 #include "ui/page_scannow.h"
 #include "ui/page_version.h"
@@ -142,6 +143,7 @@ static void change_channel_analog(uint8_t const channel) {
         app_switch_to_analog(0);
         app_state_push(APP_STATE_VIDEO);
         pthread_mutex_unlock(&lvgl_mutex);
+        module_set_channel(channel);
     }
 }
 
@@ -301,7 +303,7 @@ void msp_process_packet() {
             if (g_source_info.source == SOURCE_HDZERO) {
                 channel_channel_hdzero(hdz_index2ch(chan));
             } else {
-#if defined(HDZBOXPRO) || defined(HDZGOGGLE2)
+#if defined(HDZBOXPRO) || defined(HDZGOGGLE2) || defined(HDZGOGGLE)
                 if (g_source_info.source == SOURCE_AV_MODULE) {
                     change_channel_analog(chan + 1);
                 }

@@ -23,6 +23,7 @@
 #include "ui/page_headtracker.h"
 #include "ui/page_imagesettings.h"
 #include "ui/page_input.h"
+#include "ui/page_modulebay.h"
 #include "ui/page_osd.h"
 #include "ui/page_playback.h"
 #include "ui/page_power.h"
@@ -320,6 +321,8 @@ void main_menu_init(void) {
     page_packs[page_packs_count++] = &pp_input;
 #if defined(HDZBOXPRO) || defined(HDZGOGGLE2)
     page_packs[page_packs_count++] = &pp_analog_rssi;
+#elif defined(HDZGOGGLE)
+    page_packs[page_packs_count++] = &pp_modulebay;
 #endif
     page_packs[page_packs_count++] = &pp_sleep;
 

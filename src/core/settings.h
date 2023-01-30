@@ -290,6 +290,11 @@ typedef struct {
 } setting_analog_rssi_t;
 
 typedef struct {
+    int type;
+    int setting;
+} setting_module_t;
+
+typedef struct {
     setting_scan_t scan;
     setting_fan_t fans;
     setting_autoscan_t autoscan;
@@ -308,6 +313,7 @@ typedef struct {
     language_t language;
     setting_analog_rssi_t analog_rssi;
     bool has_all_features;
+    setting_module_t module;
 } setting_t;
 
 extern setting_t g_setting;

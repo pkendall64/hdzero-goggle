@@ -239,6 +239,10 @@ const setting_t g_setting_defaults = {
         .calib_max = 2100,
     },
     .has_all_features = true,
+	.module = {
+        .type = 0,
+        .setting = 0,
+    },
 };
 
 int settings_put_osd_element_shown(bool show, char *config_name) {
@@ -496,6 +500,10 @@ void settings_load(void) {
     if (!language_config()) {
         g_setting.language.lang = ini_getl("language", "lang", g_setting_defaults.language.lang, SETTING_INI);
     }
+
+    // module bay
+    g_setting.module.type = ini_getl("module", "type", g_setting_defaults.module.type, SETTING_INI);
+    g_setting.module.setting = ini_getl("module", "setting", g_setting_defaults.module.setting, SETTING_INI);
 
     // Check
     if (fs_file_exists(SELF_TEST_FILE)) {
