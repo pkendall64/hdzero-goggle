@@ -35,6 +35,7 @@
 #include "driver/mcp3021.h"
 #include "driver/oled.h"
 #include "driver/rtc.h"
+#include "module/module.h"
 #include "ui/page_power.h"
 #include "ui/page_scannow.h"
 #include "ui/page_source.h"
@@ -159,6 +160,7 @@ int main(int argc, char *argv[]) {
     elrs_init();
     ht_init();
     beep_init();
+    module_init();
 
     // 4. Initilize UI
     lvgl_init();
