@@ -15,6 +15,7 @@ extern "C" {
 #define DRAW_HOR_RES_FHD (DISP_HOR_RES_FHD + DISP_OVERSCAN)
 #define DRAW_VER_RES_FHD (DISP_VER_RES_FHD + DISP_OVERSCAN)
 
+void lvgl_screenshot();
 int lvgl_init_porting();
 int lvgl_switch_to_720p();
 int lvgl_switch_to_1080p();

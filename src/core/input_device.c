@@ -352,26 +352,30 @@ void rbtn_click(right_button_t click_type) {
 
     pthread_mutex_lock(&lvgl_mutex);
 
-    switch (g_app_state) {
-    case APP_STATE_SUBMENU:
-    case APP_STATE_WIFI:
-        if (click_type == RIGHT_CLICK)
-            submenu_right_button(true);
-        else if (click_type == RIGHT_LONG_PRESS)
-            submenu_right_button(false);
-        break;
-    case APP_STATE_VIDEO:
-        if (click_type == RIGHT_CLICK) {
-            (*rbtn_click_callback)();
-        } else if (click_type == RIGHT_LONG_PRESS) {
-            (*rbtn_press_callback)();
-        } else if (click_type == RIGHT_DOUBLE_CLICK) {
-            (*rbtn_double_click_callback)();
+    if (g_app_state != APP_STATE_VIDEO && click_type == RIGHT_DOUBLE_CLICK) {
+        lvgl_screenshot();
+    } else {
+        switch (g_app_state) {
+        case APP_STATE_SUBMENU:
+        case APP_STATE_WIFI:
+            if (click_type == RIGHT_CLICK)
+                submenu_right_button(true);
+            else if (click_type == RIGHT_LONG_PRESS)
+                submenu_right_button(false);
+            break;
+        case APP_STATE_VIDEO:
+            if (click_type == RIGHT_CLICK) {
+                (*rbtn_click_callback)();
+            } else if (click_type == RIGHT_LONG_PRESS) {
+                (*rbtn_press_callback)();
+            } else if (click_type == RIGHT_DOUBLE_CLICK) {
+                (*rbtn_double_click_callback)();
+            }
+            break;
+        case APP_STATE_SLEEP:
+            wake_up();
+            break;
         }
-        break;
-    case APP_STATE_SLEEP:
-        wake_up();
-        break;
     }
 
     pthread_mutex_unlock(&lvgl_mutex);
