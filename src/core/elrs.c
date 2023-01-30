@@ -30,8 +30,10 @@
 #include "driver/hardware.h"
 #include "driver/rtc.h"
 #include "driver/uart.h"
+#include "module/module.h"
 #include "ui/page_common.h"
 #include "ui/page_scannow.h"
+#include "ui/page_source.h"
 #include "ui/page_version.h"
 
 static mspState_e input_state;
@@ -232,6 +234,20 @@ void msp_process_packet() {
                     app_switch_to_hdzero(true);
                     app_state_push(APP_STATE_VIDEO);
                     pthread_mutex_unlock(&lvgl_mutex);
+                    module_set_channel(-1);
+                }
+            }
+            if (g_source_info.source == SOURCE_EXPANSION) {
+                if (g_menu_op != OPLEVEL_VIDEO) {
+                    switch_to_analog(1);
+                    g_menu_op = OPLEVEL_VIDEO;
+                    g_source_info.source = SOURCE_EXPANSION;
+                    sel_audio_source(2);
+                    enable_line_out(true);
+                }
+                if (chan != module_get_channel()) {
+                    module_set_channel(chan);
+                    beep();
                 }
             }
         } break;
