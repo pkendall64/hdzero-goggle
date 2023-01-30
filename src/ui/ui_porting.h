@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+void lvgl_screenshot();
 int lvgl_init_porting(void);
 int lvgl_switch_to_720p(void);
 int lvgl_switch_to_1080p(void);

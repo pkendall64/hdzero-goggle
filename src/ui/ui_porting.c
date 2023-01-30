@@ -32,6 +32,21 @@ static void hdz_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_
     lv_disp_flush_ready(disp);
 }
 
+void lvgl_screenshot() {
+    static int counter = 0;
+    FILE* outfile;
+    char filename[64];
+
+    sprintf(filename, "/mnt/extsd/scr_%04d.bin", counter++);
+    outfile = fopen(filename, "w");
+    if (outfile == NULL) {
+        return;
+    }
+
+    fwrite(fbdev.fb_mem, 4, 1920*1080, outfile);
+    fclose(outfile);
+}
+
 int lvgl_init_porting(void) {
     memset(&fbdev, 0x0, sizeof(FBDEV));
     strncpy(fbdev.dev, "/dev/fb0", sizeof(fbdev.dev));

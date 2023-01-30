@@ -281,7 +281,9 @@ void rbtn_click(bool is_short) {
             // double-click handler
             if (g_menu_op == OPLEVEL_VIDEO) {
                 ht_set_center_position();
-            }
+            } else {
+                lvgl_screenshot();
+            }			
         }
     } else {
         pthread_mutex_lock(&lvgl_mutex);
