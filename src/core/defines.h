@@ -17,6 +17,10 @@ typedef enum {
 #define GPIO_ESP32_EN    129
 #define GPIO_ESP32_BOOT  130
 
+#define GPIO_MODULE_CLK     192
+#define GPIO_MODULE_DAT     193
+#define GPIO_MODULE_CS      194
+
 #define GPIO_TP2825_RSTB 132
 
 #define GPIO_HDZ_RX_RESET 224
