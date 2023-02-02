@@ -1,8 +1,8 @@
 #ifndef __MODULE_RAPIDFIRE_H_
 #define __MODULE_RAPIDFIRE_H_
 
-void rapidfire_init();
-void rapidfire_close();
-void rapidfire_set_channel(int index);
+#include "module_def.h"
+
+extern module_def_t rapidfire_module;
 
 #endif

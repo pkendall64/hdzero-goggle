@@ -1,9 +1,10 @@
-#include "common.hh"
-
 #include <unistd.h>
 
-#include "rapidfire.h"
+#include "core/common.hh"
+#include "core/settings.h"
+
 #include "softspi.h"
+#include "rapidfire.h"
 
 #define SPAM_COUNT          3
 
@@ -20,7 +21,18 @@ static const uint32_t periodMicroSec = 1000;
 static void send_band(uint8_t band);
 static void send_channel(uint8_t channel);
 
-void rapidfire_init() {
+static void rapidfire_set_channel(int index) {
+    uint8_t band = index / 8 + 1;
+    uint8_t channel = index % 8;
+
+    send_band(band);
+	usleep(100);
+    send_channel(channel);
+
+    current_channel = index;
+}
+
+static void rapidfire_init() {
     softspi_init();
 
     softspi_set_pin(SOFTSPI_CLK, 1);
@@ -33,22 +45,11 @@ void rapidfire_init() {
     usleep(200);
     softspi_set_pin(SOFTSPI_CS, 1);
 
-    rapidfire_set_channel(32);
+    rapidfire_set_channel(g_setting.module.channel-1);
 }
 
-void rapidfire_close() {
+static void rapidfire_close() {
     softspi_close();
-}
-
-void rapidfire_set_channel(int index) {
-    uint8_t band = index / 8 + 1;
-    uint8_t channel = index % 8;
-
-    send_band(band);
-	usleep(100);
-    send_channel(channel);
-
-    current_channel = index;
 }
 
 // CRC function for IMRC rapidfire API
@@ -119,3 +120,11 @@ static void send_channel(uint8_t channel) {
         send_spi(cmd, 5);
     }
 }
+
+module_def_t rapidfire_module = {
+    48,
+    module_standard_channel_name,
+    rapidfire_init,
+    rapidfire_close,
+    rapidfire_set_channel
+};
