@@ -1,9 +1,10 @@
-#include "common.hh"
-
 #include <unistd.h>
 
-#include "steadyview.h"
+#include "core/common.hh"
+#include "core/settings.h"
+
 #include "softspi.h"
+#include "steadyview.h"
 
 #define RX5808_READ_CTRL_BIT      0x00
 #define RX5808_WRITE_CTRL_BIT     0x01
@@ -20,7 +21,7 @@ static const uint16_t frequencyTable[48] = {
     5705, 5685, 5665, 5645, 5885, 5905, 5925, 5945, // E
     5740, 5760, 5780, 5800, 5820, 5840, 5860, 5880, // F
     5658, 5695, 5732, 5769, 5806, 5843, 5880, 5917, // R
-    5333, 5373, 5413, 5453, 5493, 5533, 5573, 5613  // L
+    5362, 5399, 5436, 5473, 5510, 5547, 5584, 5621  // L
 };
 
 static int current_channel = -1;
@@ -31,23 +32,7 @@ static const uint32_t periodMicroSec = 100;
 static void rtc6705WriteRegister(uint32_t data);
 static uint32_t rtc6705ReadRegister(uint8_t read);
 
-void steadyview_init() {
-    softspi_init();
-    softspi_set_pin(SOFTSPI_CLK, 0);
-    softspi_set_pin(SOFTSPI_CS, 1);
-    softspi_set_pin(SOFTSPI_DAT, 1);
-    usleep(100000);
-
-    steadyview_set_channel(32);
-    usleep(100000);
-    steadyview_set_mixmode(ModeDiversity);
-}
-
-void steadyview_close() {
-    softspi_close();
-}
-
-void steadyview_set_channel(int index) {
+static void steadyview_set_channel(int index) {
     uint16_t f = frequencyTable[index];
     uint32_t data = ((((f - 479) / 2) / 32) << 7) | (((f - 479) / 2) % 32);
     uint32_t newRegisterData = SYNTHESIZER_REG_B | (RX5808_WRITE_CTRL_BIT << 4) | (data << 5);
@@ -79,6 +64,22 @@ void steadyview_set_mixmode(mix_mode_t mode) {
     usleep(500);
     rtc6705WriteRegister(SYNTHESIZER_REG_A | (RX5808_WRITE_CTRL_BIT << 4) | (0x8 << 5));
     rtc6705WriteRegister(registerData);
+}
+
+static void steadyview_init() {
+    softspi_init();
+    softspi_set_pin(SOFTSPI_CLK, 0);
+    softspi_set_pin(SOFTSPI_CS, 1);
+    softspi_set_pin(SOFTSPI_DAT, 1);
+    usleep(100000);
+
+    steadyview_set_channel(g_setting.module.channel-1);
+    usleep(100000);
+    steadyview_set_mixmode(ModeDiversity);
+}
+
+static void steadyview_close() {
+    softspi_close();
 }
 
 static void rtc6705WriteRegister(uint32_t data) {
@@ -131,3 +132,11 @@ static uint32_t rtc6705ReadRegister(uint8_t read) {
 
     return registerData;
 }
+
+module_def_t steadyview_module = {
+    48,
+    module_standard_channel_name,
+    steadyview_init,
+    steadyview_close,
+    steadyview_set_channel
+};
