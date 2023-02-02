@@ -223,6 +223,10 @@ const setting_t g_setting_defaults = {
     .language = {
         .lang = LANG_ENGLISH_DEFAULT,
     },
+	.module = {
+        .channel = 1,
+
+    },
 };
 
 int settings_put_osd_element_shown(bool show, char *config_name) {
@@ -465,6 +469,9 @@ void settings_load(void) {
     if (!language_config()) {
         g_setting.language.lang = ini_getl("language", "lang", g_setting_defaults.language.lang, SETTING_INI);
     }
+
+    // module bay
+    g_setting.module.channel = ini_getl("module", "channel", g_setting_defaults.module.channel, SETTING_INI);
 
     // Check
     if (fs_file_exists(SELF_TEST_FILE)) {
