@@ -147,6 +147,9 @@ const setting_t g_setting_defaults = {
         .min = 30,
         .sec = 30,
         .format = 0,
+    },
+	.module = {
+        .channel = 1,
     }};
 
 static void settings_load_osd_element(setting_osd_goggle_element_t *element, char *config_name, const setting_osd_goggle_element_t *defaults) {
@@ -283,6 +286,9 @@ void settings_load(void) {
 
     // no dial under video mode
     g_setting.ease.no_dial = file_exists(NO_DIAL_FILE);
+
+    // module bay
+    g_setting.module.channel = ini_getl("module", "channel", g_setting_defaults.module.channel, SETTING_INI);
 
     // Check
     g_test_en = false;

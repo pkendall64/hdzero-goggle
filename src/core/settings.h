@@ -168,6 +168,10 @@ typedef struct {
 } setting_sources_t;
 
 typedef struct {
+    int channel;
+} setting_module_t;
+
+typedef struct {
     setting_scan_t scan;
     setting_fan_t fans;
     setting_autoscan_t autoscan;
@@ -181,6 +185,7 @@ typedef struct {
     setting_osd_t osd;
     setting_clock_t clock;
     ease_use_t ease;
+    setting_module_t module;
 } setting_t;
 
 extern setting_t g_setting;
