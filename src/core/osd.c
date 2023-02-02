@@ -208,13 +208,13 @@ void osd_channel_show(bool bShow) {
 
     if (channel_osd_mode & 0x80) {
         ch = channel_osd_mode & 0x7F;
-        char *str = g_source_info.source == SOURCE_HDZERO ? channel2str(ch) : module_channel_str(ch-1);
+        char *str = g_source_info.source == SOURCE_HDZERO ? channel2str(ch) : module_channel_str(ch);
         color = lv_color_make(0xFF, 0x20, 0x20);
         sprintf(buf, "  To %s?  ", str);
         lv_obj_set_style_bg_opa(g_osd_hdzero.channel[is_fhd], LV_OPA_100, 0);
     } else {
         ch = g_source_info.source == SOURCE_HDZERO ? g_setting.scan.channel & 0xF : g_setting.module.channel;
-        char *str = g_source_info.source == SOURCE_HDZERO ? channel2str(ch) : module_channel_str(ch-1);
+        char *str = g_source_info.source == SOURCE_HDZERO ? channel2str(ch) : module_channel_str(ch);
         color = lv_color_make(0xFF, 0xFF, 0xFF);
         sprintf(buf, "CH:%s", str);
         lv_obj_set_style_bg_opa(g_osd_hdzero.channel[is_fhd], 0, 0);

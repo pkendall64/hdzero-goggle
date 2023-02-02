@@ -16,6 +16,7 @@
 #include <unistd.h>
 
 #include <log/log.h>
+#include <minIni.h>
 
 #include "core/app_state.h"
 #include "core/battery.h"
@@ -234,10 +235,10 @@ void msp_process_packet() {
                     app_switch_to_hdzero(true);
                     app_state_push(APP_STATE_VIDEO);
                     pthread_mutex_unlock(&lvgl_mutex);
-                    module_set_channel(-1);
                 }
             }
             if (g_source_info.source == SOURCE_EXPANSION) {
+                chan++; // channels are 1 based in HDzero
                 if (g_app_state != APP_STATE_VIDEO) {
                     app_switch_to_analog(1);
                     g_app_state = APP_STATE_VIDEO;
@@ -245,7 +246,9 @@ void msp_process_packet() {
                     dvr_select_audio_source(2);
                     dvr_enable_line_out(true);
                 }
-                if (chan != module_get_channel()) {
+                if (chan != g_setting.module.channel) {
+                    g_setting.module.channel = chan;
+                    ini_putl("module", "channel", chan, SETTING_INI);
                     module_set_channel(chan);
                     beep();
                 }
