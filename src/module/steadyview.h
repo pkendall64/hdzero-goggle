@@ -1,6 +1,8 @@
 #ifndef __MODULE_STEADYVIEW_H_
 #define __MODULE_STEADYVIEW_H_
 
+#include "module_def.h"
+
 typedef enum {
     ModeDiversity,
     ModeMix1,
@@ -8,9 +10,6 @@ typedef enum {
     ModeMix3,
 } mix_mode_t;
 
-void steadyview_init();
-void steadyview_close();
-void steadyview_set_channel(int index);
-void steadyview_set_mixmode(mix_mode_t mode);
+extern module_def_t steadyview_module;
 
 #endif
