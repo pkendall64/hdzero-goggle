@@ -238,12 +238,12 @@ void msp_process_packet() {
                 }
             }
             if (g_source_info.source == SOURCE_EXPANSION) {
-                if (g_menu_op != OPLEVEL_VIDEO) {
-                    switch_to_analog(1);
-                    g_menu_op = OPLEVEL_VIDEO;
+                if (g_app_state != APP_STATE_VIDEO) {
+                    app_switch_to_analog(1);
+                    g_app_state = APP_STATE_VIDEO;
                     g_source_info.source = SOURCE_EXPANSION;
-                    sel_audio_source(2);
-                    enable_line_out(true);
+                    dvr_select_audio_source(2);
+                    dvr_enable_line_out(true);
                 }
                 if (chan != module_get_channel()) {
                     module_set_channel(chan);

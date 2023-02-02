@@ -27,6 +27,7 @@
 #include "driver/fbtools.h"
 #include "driver/hardware.h"
 #include "driver/nct75.h"
+#include "module/module.h"
 #include "ui/page_common.h"
 #include "ui/page_fans.h"
 #include "ui/ui_image_setting.h"
@@ -206,14 +207,16 @@ void osd_channel_show(bool bShow) {
     char buf[32];
 
     if (channel_osd_mode & 0x80) {
-        ch = channel_osd_mode & 0xF;
+        ch = channel_osd_mode & 0x7F;
+        char *str = g_source_info.source == SOURCE_HDZERO ? channel2str(ch) : module_channel_str(ch-1);
         color = lv_color_make(0xFF, 0x20, 0x20);
-        sprintf(buf, "  To %s?  ", channel2str(ch));
+        sprintf(buf, "  To %s?  ", str);
         lv_obj_set_style_bg_opa(g_osd_hdzero.channel[is_fhd], LV_OPA_100, 0);
     } else {
-        ch = g_setting.scan.channel & 0xF;
+        ch = g_source_info.source == SOURCE_HDZERO ? g_setting.scan.channel & 0xF : g_setting.module.channel;
+        char *str = g_source_info.source == SOURCE_HDZERO ? channel2str(ch) : module_channel_str(ch-1);
         color = lv_color_make(0xFF, 0xFF, 0xFF);
-        sprintf(buf, "CH:%s", channel2str(ch));
+        sprintf(buf, "CH:%s", str);
         lv_obj_set_style_bg_opa(g_osd_hdzero.channel[is_fhd], 0, 0);
     }
 
