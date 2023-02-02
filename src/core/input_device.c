@@ -48,6 +48,8 @@
 #include "ui/ui_osd_element_pos.h"
 #include "ui/ui_porting.h"
 
+#include "module/module.h"
+
 ///////////////////////////////////////////////////////////////////////////////
 // Tune channel on video mode
 #define TUNER_TIMER_LEN 30
@@ -65,6 +67,12 @@ void exit_tune_channel() {
     tune_state = 0;
     tune_timer = 0;
     channel_osd_mode = 0;
+}
+
+int num_channels() {
+    if (g_source_info.source == SOURCE_HDZERO)
+        return CHANNEL_NUM;
+    return module_num_channels();
 }
 
 void tune_channel(uint8_t action) {
@@ -87,7 +95,10 @@ void tune_channel(uint8_t action) {
         if ((action == DIAL_KEY_UP) || (action == DIAL_KEY_DOWN)) {
             tune_timer = TUNER_TIMER_LEN;
             tune_state = 2;
-            channel = g_setting.scan.channel;
+            if (g_source_info.source == SOURCE_HDZERO)
+                channel = g_setting.scan.channel;
+            else
+                channel = g_setting.module.channel;
         }
     }
 
@@ -96,7 +107,7 @@ void tune_channel(uint8_t action) {
 
     switch (action) {
     case DIAL_KEY_UP: // Tune up
-        if (channel == CHANNEL_NUM)
+        if (channel == num_channels())
             channel = 1;
         else
             channel++;
@@ -104,18 +115,25 @@ void tune_channel(uint8_t action) {
 
     case DIAL_KEY_DOWN: // Tune down
         if (channel == 1)
-            channel = CHANNEL_NUM;
+            channel = num_channels();
         else
             channel--;
         break;
 
     case DIAL_KEY_PRESS: // confirm to tune with VTX freq send
     case DIAL_KEY_CLICK: // confirm to tune
-        if (g_setting.scan.channel != channel) {
+        if (g_source_info.source == SOURCE_HDZERO && g_setting.scan.channel != channel) {
             g_setting.scan.channel = channel;
             ini_putl("scan", "channel", g_setting.scan.channel, SETTING_INI);
             dvr_cmd(DVR_STOP);
             app_switch_to_hdzero(true);
+            if (action == DIAL_KEY_PRESS) {
+                msp_channel_update();
+            }
+        } else if (g_source_info.source == SOURCE_EXPANSION && g_setting.module.channel != channel) {
+            g_setting.module.channel = channel;
+            ini_putl("module", "channel", channel, SETTING_INI);
+            module_set_channel(channel);
             if (action == DIAL_KEY_PRESS) {
                 msp_channel_update();
             }

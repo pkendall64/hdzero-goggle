@@ -218,6 +218,10 @@ const setting_t g_setting_defaults = {
         .hdzero_band = SETTING_SOURCES_HDZERO_BAND_RACEBAND,
         .hdzero_bw = SETTING_SOURCES_HDZERO_BW_WIDE,
     },
+	.module = {
+        .channel = 1,
+
+    },
 };
 
 int settings_put_osd_element_shown(bool show, char *config_name) {
@@ -454,6 +458,9 @@ void settings_load(void) {
 
     // storage
     g_setting.storage.logging = settings_get_bool("storage", "logging", g_setting_defaults.storage.logging);
+
+    // module bay
+    g_setting.module.channel = ini_getl("module", "channel", g_setting_defaults.module.channel, SETTING_INI);
 
     // Check
     if (fs_file_exists(SELF_TEST_FILE)) {
