@@ -18,6 +18,7 @@
 #include "ui/page_focus_chart.h"
 #include "ui/page_headtracker.h"
 #include "ui/page_imagesettings.h"
+#include "ui/page_modulebay.h"
 #include "ui/page_playback.h"
 #include "ui/page_power.h"
 #include "ui/page_record.h"
@@ -41,6 +42,7 @@ static page_pack_t *page_packs[PAGE_MAX] = {
     [PAGE_FANS] = &pp_fans,
     [PAGE_HEADTRACKER] = &pp_headtracker,
     [PAGE_IMAGE_SETTINGS] = &pp_imagesettings,
+    [PAGE_MODULE_BAY] = &pp_modulebay,
     [PAGE_PLAYBACK] = &pp_playback,
     [PAGE_POWER] = &pp_power,
     [PAGE_RECORD] = &pp_record,
@@ -265,6 +267,7 @@ void main_menu_init(void) {
     main_menu_create_entry(menu, section, "Record Options", &pp_record);
     main_menu_create_entry(menu, section, "Auto Scan", &pp_autoscan);
     main_menu_create_entry(menu, section, "Connections", &pp_connections);
+    main_menu_create_entry(menu, section, "Module Bay", &pp_modulebay);
     main_menu_create_entry(menu, section, "Head Tracker", &pp_headtracker);
     main_menu_create_entry(menu, section, "Playback", &pp_playback);
     main_menu_create_entry(menu, section, "Firmware", &pp_version);

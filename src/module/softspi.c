@@ -34,10 +34,9 @@ void softspi_init() {
     dat_dir_fd = open(buf, O_WRONLY);
 }
 
-static void close_gpio(int port_num)
+void softspi_release_gpio(int port_num)
 {
 	char buf[64];
-
     sprintf(buf, "echo \"%d\">/sys/class/gpio/unexport", port_num);
     system(buf);
 }
@@ -46,17 +45,17 @@ void softspi_close() {
     if (pins_fd[SOFTSPI_CLK] != -1) {
         close(pins_fd[SOFTSPI_CLK]);
         pins_fd[SOFTSPI_CLK] = -1;
-        close_gpio(GPIO_MODULE_CLK);
+        softspi_release_gpio(GPIO_MODULE_CLK);
     }
     if (pins_fd[SOFTSPI_DAT] != -1) {
         close(pins_fd[SOFTSPI_DAT]);
         pins_fd[SOFTSPI_DAT] = -1;
-        close_gpio(GPIO_MODULE_DAT);
+        softspi_release_gpio(GPIO_MODULE_DAT);
     }
     if (pins_fd[SOFTSPI_CS] != -1) {
         close(pins_fd[SOFTSPI_CS]);
         pins_fd[SOFTSPI_CS] = -1;
-        close_gpio(GPIO_MODULE_CS);
+        softspi_release_gpio(GPIO_MODULE_CS);
     }
 }
 
