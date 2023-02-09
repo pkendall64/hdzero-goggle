@@ -261,6 +261,7 @@ typedef struct {
 
 typedef struct {
     int channel;
+    int type;
 } setting_module_t;
 
 typedef struct {

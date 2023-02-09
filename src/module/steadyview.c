@@ -25,7 +25,7 @@ static const uint16_t frequencyTable[48] = {
 };
 
 static int current_channel = -1;
-static mix_mode_t mix_mode = -1;
+static steadyview_mix_mode_t mix_mode = -1;
 
 static const uint32_t periodMicroSec = 100;
 
@@ -46,7 +46,7 @@ static void steadyview_set_channel(int index) {
     current_channel = index;
 }
 
-void steadyview_set_mixmode(mix_mode_t mode) {
+void steadyview_set_mixmode(steadyview_mix_mode_t mode) {
     mix_mode = mode;
 
     softspi_set_pin(SOFTSPI_CLK, mode & 0x01);
@@ -75,7 +75,7 @@ static void steadyview_init() {
 
     steadyview_set_channel(g_setting.module.channel-1);
     usleep(100000);
-    steadyview_set_mixmode(ModeDiversity);
+    steadyview_set_mixmode(STEADYVIEW_DIVERSITY);
 }
 
 static void steadyview_close() {

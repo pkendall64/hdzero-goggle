@@ -19,6 +19,7 @@
 #include "ui/page_headtracker.h"
 #include "ui/page_imagesettings.h"
 #include "ui/page_input.h"
+#include "ui/page_modulebay.h"
 #include "ui/page_osd.h"
 #include "ui/page_playback.h"
 #include "ui/page_power.h"
@@ -55,6 +56,7 @@ static page_pack_t *page_packs[] = {
     &pp_autoscan,
     &pp_elrs,
     &pp_wifi,
+    &pp_modulebay,
     &pp_headtracker,
     &pp_playback,
     &pp_storage,
