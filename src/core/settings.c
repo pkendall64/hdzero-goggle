@@ -220,7 +220,7 @@ const setting_t g_setting_defaults = {
     },
 	.module = {
         .channel = 1,
-
+        .type = 0,
     },
 };
 
@@ -461,6 +461,7 @@ void settings_load(void) {
 
     // module bay
     g_setting.module.channel = ini_getl("module", "channel", g_setting_defaults.module.channel, SETTING_INI);
+    g_setting.module.type = ini_getl("module", "type", g_setting_defaults.module.type, SETTING_INI);
 
     // Check
     if (fs_file_exists(SELF_TEST_FILE)) {
