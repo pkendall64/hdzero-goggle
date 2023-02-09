@@ -182,7 +182,7 @@ static lv_coord_t row_dsc[] = {60, LV_GRID_TEMPLATE_LAST};
 
 static void create_btn_with_arrow(lv_obj_t *parent, btn_with_arr_t *btn_a, const char *name, int row, int col) {
     btn_a->container = lv_obj_create(parent);
-    lv_obj_set_size(btn_a->container, 200, 60);
+    lv_obj_set_size(btn_a->container, 240, 60);
     lv_obj_set_pos(btn_a->container, 0, 0);
     lv_obj_set_layout(btn_a->container, LV_LAYOUT_GRID);
     lv_obj_clear_flag(btn_a->container, LV_OBJ_FLAG_SCROLLABLE);
@@ -209,7 +209,7 @@ static void create_btn_with_arrow(lv_obj_t *parent, btn_with_arr_t *btn_a, const
     lv_obj_set_style_bg_opa(btn_a->btn, 0x0, 0);
     lv_obj_set_style_shadow_width(btn_a->btn, 0, 0);
     lv_obj_set_style_pad_top(btn_a->btn, 12, 0);
-    lv_obj_set_size(btn_a->btn, 160, 60);
+    lv_obj_set_size(btn_a->btn, 200, 60);
     lv_obj_set_grid_cell(btn_a->btn, LV_GRID_ALIGN_START, 1, 1,
                          LV_GRID_ALIGN_CENTER, 0, 1);
 
