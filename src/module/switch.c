@@ -21,7 +21,7 @@ static void switch_init() {
     // Set the swicthes/GPIO to a state that is NOT part of the rapidfire SPI setup.
     switch_set_channel(2);
     usleep(200000);
-    switch_set_channel(g_setting.module.channel-1);
+    switch_set_channel(g_setting.module.channel - 1);
 }
 
 static void switch_close() {
@@ -30,7 +30,7 @@ static void switch_close() {
 
 static char *switch_name(int channel) {
     static char *channel_name[] = {
-        "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"
+        "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8",
     };
     return channel_name[channel];
 }
@@ -40,5 +40,4 @@ module_def_t switch_module = {
     switch_name,
     switch_init,
     switch_close,
-    switch_set_channel
-};
+    switch_set_channel};

@@ -5,7 +5,7 @@ extern "C" {
 #endif
 
 #include <stdint.h>
-#define UART_PORTS 4
+#define UART_PORTS  5
 
 int uart_open(int port);
 int uart_set_opt(int fd, int nSpeed, int nBits, char nEvent, int nStop);

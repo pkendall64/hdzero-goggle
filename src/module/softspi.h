@@ -17,6 +17,7 @@ typedef enum {
 void softspi_init();
 void softspi_close();
 void softspi_set_direction(softspi_direction_t direction);
+void softspi_release_gpio(int gpio);
 void softspi_set_pin(softspi_pin_t pin, int value);
 int softspi_get_pin(softspi_pin_t pin);
 
