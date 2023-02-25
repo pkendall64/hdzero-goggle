@@ -258,6 +258,7 @@ void create_btn_group_item(btn_group_t *btn_group, lv_obj_t *parent, int count, 
     lv_obj_set_size(label, 320, 60);
     lv_obj_set_grid_cell(label, LV_GRID_ALIGN_START, 1, 2,
                          LV_GRID_ALIGN_CENTER, row, 1);
+    btn_group->label = label;
 
     create_btn_with_arrow(parent, &btn_group->btn_a[0], name0, row, 2);
     if (count >= 2) {
@@ -287,6 +288,7 @@ void create_btn_group_item2(btn_group_t *btn_group, lv_obj_t *parent, int count,
     lv_obj_set_size(label, 320, 60);
     lv_obj_set_grid_cell(label, LV_GRID_ALIGN_START, 1, 2,
                          LV_GRID_ALIGN_CENTER, row, 1);
+    btn_group->label = label;
 
     create_btn_with_arrow(parent, &btn_group->btn_a[0], name0, row, 2);
     if (count >= 2) {
@@ -310,4 +312,24 @@ void create_btn_group_item2(btn_group_t *btn_group, lv_obj_t *parent, int count,
     }
 
     btn_group_set_sel(btn_group, 0);
+}
+
+void display_btn_group(btn_group_t *btn_group, bool show) {
+    if (show) {
+        lv_obj_clear_flag(btn_group->label, LV_OBJ_FLAG_HIDDEN);
+        for (int i=0 ; i<btn_group->valid ; i++) {
+            // lv_obj_del(btn_group->btn_a[i].btn);
+            // lv_obj_del(btn_group->btn_a[i].arrow);
+            // lv_obj_del(btn_group->btn_a[i].label);
+            lv_obj_clear_flag(btn_group->btn_a[i].container, LV_OBJ_FLAG_HIDDEN);
+        }
+    } else {
+        lv_obj_add_flag(btn_group->label, LV_OBJ_FLAG_HIDDEN);
+        for (int i=0 ; i<btn_group->valid ; i++) {
+            // lv_obj_del(btn_group->btn_a[i].btn);
+            // lv_obj_del(btn_group->btn_a[i].arrow);
+            // lv_obj_del(btn_group->btn_a[i].label);
+            lv_obj_add_flag(btn_group->btn_a[i].container, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
 }

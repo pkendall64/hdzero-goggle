@@ -87,6 +87,7 @@ typedef struct {
 } btn_with_arr_t;
 
 typedef struct {
+    lv_obj_t *label;
     btn_with_arr_t btn_a[6];
     int valid;
     int current;
@@ -140,6 +141,8 @@ void create_btn_group_item(btn_group_t *btn_group, lv_obj_t *parent, int count, 
 
 void create_btn_group_item2(btn_group_t *btn_group, lv_obj_t *parent, int count, const char *name, const char *name0, const char *name1,
                             const char *name2, const char *name3, const char *name4, const char *name5, int row);
+
+void display_btn_group(btn_group_t *btn_group, bool show);
 
 void set_select_item(const panel_arr_t *arr, int row);
 

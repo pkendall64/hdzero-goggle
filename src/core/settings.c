@@ -151,6 +151,7 @@ const setting_t g_setting_defaults = {
 	.module = {
         .channel = 1,
         .type = 0,
+        .setting = 0,
     }};
 
 static void settings_load_osd_element(setting_osd_goggle_element_t *element, char *config_name, const setting_osd_goggle_element_t *defaults) {
@@ -291,6 +292,7 @@ void settings_load(void) {
     // module bay
     g_setting.module.channel = ini_getl("module", "channel", g_setting_defaults.module.channel, SETTING_INI);
     g_setting.module.type = ini_getl("module", "type", g_setting_defaults.module.type, SETTING_INI);
+    g_setting.module.setting = ini_getl("module", "setting", g_setting_defaults.module.setting, SETTING_INI);
 
     // Check
     g_test_en = false;

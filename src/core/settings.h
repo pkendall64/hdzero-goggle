@@ -170,6 +170,7 @@ typedef struct {
 typedef struct {
     int channel;
     int type;
+    int setting;
 } setting_module_t;
 
 typedef struct {
