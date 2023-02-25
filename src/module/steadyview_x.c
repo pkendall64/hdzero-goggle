@@ -45,7 +45,7 @@ static void steadyview_x_init() {
     if (uart_fd >= 0) {
         steadyview_x_set_channel(g_setting.module.channel-1);
         usleep(100000);
-        steadyview_x_set_mixmode(STEADYVIEW_X_DIVERSITY);
+        steadyview_x_set_mixmode(g_setting.module.setting);
     }
 }
 
