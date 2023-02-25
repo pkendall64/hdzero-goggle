@@ -75,7 +75,7 @@ static void steadyview_init() {
 
     steadyview_set_channel(g_setting.module.channel-1);
     usleep(100000);
-    steadyview_set_mixmode(STEADYVIEW_DIVERSITY);
+    steadyview_set_mixmode(g_setting.module.setting);
 }
 
 static void steadyview_close() {
