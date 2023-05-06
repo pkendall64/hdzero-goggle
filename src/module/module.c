@@ -25,6 +25,15 @@ void module_init() {
     }
 }
 
+void module_set_mode() {
+    module = modules[g_setting.module.type];
+    if (module) {
+        if (g_setting.module.channel > module->num_channels)
+            g_setting.module.channel = 1;
+        module->set_mode();
+    }
+}
+
 void module_close() {
     if (module)
         module->close();

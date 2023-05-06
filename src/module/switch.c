@@ -16,6 +16,11 @@ static void switch_set_channel(int channel) {
     softspi_set_pin(BAY_PIN3, (channel % 8) & 4);
 }
 
+static void switch_update() {
+    //nothing else to update :)
+    switch_set_channel(g_setting.module.channel - 1);
+}
+
 static void switch_init() {
     softspi_init();
     // Set the swicthes/GPIO to a state that is NOT part of the rapidfire SPI setup.
@@ -40,4 +45,6 @@ module_def_t switch_module = {
     switch_name,
     switch_init,
     switch_close,
-    switch_set_channel};
+    switch_set_channel,
+    switch_update
+};
