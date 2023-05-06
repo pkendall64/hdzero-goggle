@@ -33,9 +33,10 @@ void show_module_settings() {
         break;
 
     case MODULE_STEADYVIEW:
-    // case MODULE_STEADYVIEW_X: // Steadyview-X not supported as soft-uart is too slow
+    case MODULE_STEADYVIEW_X:
         display_btn_group(&btn_group_rapidfire, false);
-        display_btn_group(&btn_group_steadyview, true);
+        //steadyview need repower to switch mode, old HW revision can not power cycle analog module
+        display_btn_group(&btn_group_steadyview, getHwRevision() >= HW_REV_2 || btn_group_get_sel(&btn_group_module_type) == MODULE_STEADYVIEW_X);
         lv_obj_add_flag(back_btn2, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(back_btn3, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(back_btn4, LV_OBJ_FLAG_HIDDEN);
@@ -129,7 +130,11 @@ static void page_on_click(uint8_t key, int sel) {
 }
 
 static void page_exit() {
-    module_close();
+    int module_type = btn_group_get_sel(&btn_group_module_type);
+    if (g_setting.module.type != module_type) {
+        module_close();
+        module_type = g_setting.module.type;
+    }
     g_setting.module.type = btn_group_get_sel(&btn_group_module_type);
     ini_putl("module", "type", g_setting.module.type, SETTING_INI);
     if (g_setting.module.type == MODULE_RAPIDFIRE)
@@ -137,7 +142,11 @@ static void page_exit() {
     if (g_setting.module.type == MODULE_STEADYVIEW || g_setting.module.type == MODULE_STEADYVIEW_X)
         g_setting.module.setting = btn_group_get_sel(&btn_group_steadyview);
     ini_putl("module", "setting", g_setting.module.setting, SETTING_INI);
-    module_init();
+    if (module_type == g_setting.module.type) {
+        module_set_mode();
+    } else {
+        module_init();
+    }
 }
 
 page_pack_t pp_modulebay = {

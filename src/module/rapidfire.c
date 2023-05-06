@@ -32,6 +32,12 @@ static void rapidfire_set_channel(int index) {
     current_channel = index;
 }
 
+static void rapidfire_set_mode() {
+    rapidfire_set_channel(g_setting.module.channel-1);
+	usleep(100000);
+    send_mode(g_setting.module.setting);
+}
+
 static void rapidfire_init() {
     softspi_init();
 
@@ -45,9 +51,7 @@ static void rapidfire_init() {
     usleep(200000);
     softspi_set_pin(SOFTSPI_CS, 1);
 
-    rapidfire_set_channel(g_setting.module.channel-1);
-	usleep(100000);
-    send_mode(g_setting.module.setting);
+    rapidfire_set_mode();
 }
 
 static void rapidfire_close() {
@@ -159,5 +163,6 @@ module_def_t rapidfire_module = {
     rapidfire_channel_name,
     rapidfire_init,
     rapidfire_close,
-    rapidfire_set_channel
+    rapidfire_set_channel,
+    rapidfire_set_mode
 };
