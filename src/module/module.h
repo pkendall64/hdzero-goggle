@@ -10,6 +10,7 @@ typedef enum {
 } module_type_t;
 
 void module_init();
+void module_set_mode();
 void module_close();
 void module_set_channel(int channel);
 

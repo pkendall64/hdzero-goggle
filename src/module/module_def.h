@@ -7,6 +7,7 @@ typedef struct {
     void (*init)();
     void (*close)();
     void (*set_channel)(int channel);
+    void (*set_mode)();
 } module_def_t;
 
 char *module_standard_channel_name(int channel);
