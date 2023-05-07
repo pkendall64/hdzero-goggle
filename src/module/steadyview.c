@@ -31,7 +31,7 @@ static int current_channel = -1;
 static steadyview_mix_mode_t mix_mode = -1;
 
 static const uint32_t periodMicroSec = 100;
-static void rtc6705WriteRegisterNoCs(uint32_t data);
+
 static void rtc6705WriteRegister(uint32_t data);
 static uint32_t rtc6705ReadRegister(uint8_t read);
 
@@ -62,7 +62,7 @@ void steadyview_set_mixmode(steadyview_mix_mode_t mode) {
 
     softspi_set_pin(SOFTSPI_CLK, 0);
     softspi_set_pin(SOFTSPI_DAT, 1);
-    usleep(505000);
+    usleep(500000);
 
     uint16_t f = frequencyTable[current_channel];
     uint32_t data = ((((f - 479) / 2) / 32) << 7) | (((f - 479) / 2) % 32);
@@ -83,8 +83,6 @@ static void steadyview_set_mode() {
 
 static void steadyview_init() {
     softspi_init();
-
-    usleep(50000);
     softspi_set_pin(SOFTSPI_CLK, 0);
     softspi_set_pin(SOFTSPI_CS, 1);
     softspi_set_pin(SOFTSPI_DAT, 1);
@@ -107,7 +105,7 @@ static void rtc6705WriteRegister(uint32_t data) {
     }
     softspi_set_pin(SOFTSPI_CS, 1);
     softspi_set_pin(SOFTSPI_DAT, 1);
-    usleep(10u);
+    usleep(periodMicroSec);
 }
 
 static uint32_t rtc6705ReadRegister(uint8_t read) {
