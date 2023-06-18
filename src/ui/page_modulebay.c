@@ -89,13 +89,13 @@ static lv_obj_t *page_create(lv_obj_t *parent, panel_arr_t *arr) {
 
     // create menu entries
     create_label_item(cont, "Type", 1, 0, 1);
-    btn_module_type = create_dropdown_item(cont, "Unknown\nSwitch\nrapidFIRE\nSteadyview\nSteadyview-X", 2, 0);
-    lv_obj_set_size(btn_module_type, 240, 40);
+    btn_module_type = create_dropdown_item(cont, "Unknown\nSwitch\nrapidFIRE\nSteadyview\nSteadyview-X", 2, 0,
+        240, 40, 1, 4, LV_GRID_ALIGN_START, &lv_font_montserrat_26);
 
     // settings/mode menu entries
     lbl_module_mode = create_label_item(cont, "Mode", 1, 1, 1);
-    btn_module_mode = create_dropdown_item(cont, "None", 2, 1);
-    lv_obj_set_size(btn_module_mode, 240, 40);
+    btn_module_mode = create_dropdown_item(cont, "None", 2, 1,
+        240, 40, 1, 4, LV_GRID_ALIGN_START, &lv_font_montserrat_26);
 
     // back buttons in possible locations
     back_btn1 = create_label_item(cont, "< Back", 1, 1, 1);
