@@ -152,7 +152,7 @@ void tune_channel(uint8_t action) {
 }
 
 void tune_channel_confirm() {
-    if (g_source_info.source == SOURCE_HDZERO) {
+    if (g_source_info.source == SOURCE_HDZERO || g_source_info.source == SOURCE_EXPANSION) {
         tune_channel(DIAL_KEY_CLICK);
     }
 }
