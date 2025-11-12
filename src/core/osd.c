@@ -407,15 +407,11 @@ void osd_channel_show(bool bShow) {
         if (g_source_info.source == SOURCE_HDZERO) {
             ch = g_setting.scan.channel & 0x7F;
         } else {
-#if defined(HDZGOGGLE2) || defined(HDZBOXPRO)
             if (g_source_info.source == SOURCE_AV_MODULE) {
                 ch = g_setting.source.analog_channel & 0x7F;
             } else {
                 bShow = false;
             }
-#elif defined(HDZGOGGLE)
-            bShow = false;
-#endif
         }
 
         if (bShow) {
@@ -708,7 +704,7 @@ void osd_hdzero_update(void) {
     bool showRXOSD = false;
 
 #if defined(HDZGOGGLE)
-    if (source_is_hdzero) {
+    if (source_is_hdzero || source_is_analog) {
         showRXOSD = g_setting.osd.is_visible;
     }
 #elif defined(HDZBOXPRO) || defined(HDZGOGGLE2)
@@ -754,7 +750,7 @@ void osd_hdzero_update(void) {
 #if defined(HDZBOXPRO) || defined(HDZGOGGLE2)
     osd_analog_rssi_show(showRXOSD && source_is_analog);
 #elif defined(HDZGOGGLE)
-
+    osd_analog_rssi_show(showRXOSD && source_is_analog);
 #endif
 
     if (gif_cnt % 10 == 0) { // delay needed to allow gif to flash
@@ -921,7 +917,7 @@ void osd_update_element_positions() {
 #if defined(HDZBOXPRO) || defined(HDZGOGGLE2)
     osd_analog_rssi_update_location();
 #elif defined(HDZGOGGLE)
-
+    osd_analog_rssi_update_location();
 #endif
 
     if (g_setting.storage.selftest) {
@@ -952,7 +948,7 @@ static void fc_osd_init(uint8_t fhd, uint16_t OFFSET_X, uint16_t OFFSET_Y) {
         }
     }
 
-#if defined(HDZBOXPRO) || defined(HDZGOGGLE2)
+#if defined(HDZBOXPRO) || defined(HDZGOGGLE2) || defined(HDZGOGGLE)
     if (!fhd) {
         osd_analog_rssi_create();
     }

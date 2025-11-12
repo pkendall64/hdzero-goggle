@@ -33,7 +33,7 @@ static void rapidfire_set_channel(int index) {
 }
 
 static void rapidfire_set_mode() {
-    rapidfire_set_channel(g_setting.module.channel - 1);
+    rapidfire_set_channel(g_setting.source.analog_channel - 1);
     usleep(100000);
     send_mode(g_setting.module.setting);
 }
