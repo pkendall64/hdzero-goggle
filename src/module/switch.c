@@ -18,7 +18,7 @@ static void switch_set_channel(int channel) {
 
 static void switch_update() {
     //nothing else to update :)
-    switch_set_channel(g_setting.module.channel - 1);
+    switch_set_channel(g_setting.source.analog_channel - 1);
 }
 
 static void switch_init() {
@@ -26,7 +26,7 @@ static void switch_init() {
     // Set the swicthes/GPIO to a state that is NOT part of the rapidfire SPI setup.
     switch_set_channel(2);
     usleep(200000);
-    switch_set_channel(g_setting.module.channel - 1);
+    switch_set_channel(g_setting.source.analog_channel - 1);
 }
 
 static void switch_close() {

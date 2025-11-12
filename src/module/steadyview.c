@@ -51,12 +51,12 @@ static void steadyview_set_channel(int index) {
 void steadyview_set_mixmode(steadyview_mix_mode_t mode) {
     mix_mode = mode;
 
-    DM5680_Power_AnalogModule(1U);
+    DM5680_ExternalAnalog_Power(0U);
     usleep(70000);
     softspi_set_pin(SOFTSPI_CLK, mode & 0x01);
     softspi_set_pin(SOFTSPI_DAT, mode & 0x02);
     usleep(50);
-    DM5680_Power_AnalogModule(0U);
+    DM5680_ExternalAnalog_Power(1U);
     usleep(100000);
 
     softspi_set_pin(SOFTSPI_CLK, 0);
@@ -76,7 +76,7 @@ void steadyview_set_mixmode(steadyview_mix_mode_t mode) {
 }
 
 static void steadyview_set_mode() {
-    current_channel = g_setting.module.channel-1;
+    current_channel = g_setting.source.analog_channel-1;
     steadyview_set_mixmode(g_setting.module.setting);
 }
 
@@ -88,7 +88,7 @@ static void steadyview_init() {
     softspi_set_pin(SOFTSPI_CS, 1);
     softspi_set_pin(SOFTSPI_DAT, 1);
     usleep(100000);
-    
+
     steadyview_set_mode();
 }
 

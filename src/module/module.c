@@ -19,8 +19,6 @@ static module_def_t *module = NULL;
 void module_init() {
     module = modules[g_setting.module.type];
     if (module) {
-        if (g_setting.module.channel > module->num_channels)
-            g_setting.module.channel = 1;
         module->init();
     }
 }
@@ -28,8 +26,6 @@ void module_init() {
 void module_set_mode() {
     module = modules[g_setting.module.type];
     if (module) {
-        if (g_setting.module.channel > module->num_channels)
-            g_setting.module.channel = 1;
         module->set_mode();
     }
 }

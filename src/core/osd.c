@@ -407,15 +407,11 @@ void osd_channel_show(bool bShow) {
         if (g_source_info.source == SOURCE_HDZERO) {
             ch = g_setting.scan.channel & 0x7F;
         } else {
-#if defined(HDZGOGGLE2) || defined(HDZBOXPRO)
             if (g_source_info.source == SOURCE_AV_MODULE) {
                 ch = g_setting.source.analog_channel & 0x7F;
             } else {
                 bShow = false;
             }
-#elif defined(HDZGOGGLE)
-            bShow = false;
-#endif
         }
 
         if (bShow) {

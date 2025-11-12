@@ -173,6 +173,8 @@ void tune_channel_confirm() {
 #if defined HDZGOGGLE
     if (g_source_info.source == SOURCE_HDZERO) {
         tune_channel(DIAL_KEY_CLICK);
+    } else if (g_source_info.source == SOURCE_AV_MODULE) {
+        tune_channel(DIAL_KEY_CLICK);
     }
 #elif defined HDZBOXPRO
     if (g_source_info.source == SOURCE_HDZERO) {
@@ -239,6 +241,8 @@ static void btn_press(void) // long press left key
         if (tune_timer) {
 #if defined HDZGOGGLE
             if (g_source_info.source == SOURCE_HDZERO) {
+                tune_channel(DIAL_KEY_PRESS);
+            } else if (g_source_info.source == SOURCE_AV_MODULE) {
                 tune_channel(DIAL_KEY_PRESS);
             } else {
                 (*btn_press_callback)();
