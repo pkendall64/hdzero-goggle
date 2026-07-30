@@ -112,11 +112,7 @@ void app_switch_to_hdmi_in() {
     Set_Contrast(g_setting.image.contrast);
 #endif
 
-#if defined HDZGOGGLE2
-    system_exec("aww 0x0300b084 0x0001555");
-#endif
-
-  rtc6715.init(0, 0);
+    rtc6715.init(0, 0);
 
     Source_HDMI_in();
     IT66121_close();
@@ -156,10 +152,6 @@ void app_switch_to_hdzero(bool is_default) {
     // Restore image settings from av module
     screen.brightness(g_setting.image.oled);
     Set_Contrast(g_setting.image.contrast);
-#endif
-
-#if defined HDZGOGGLE2
-    system_exec("aww 0x0300b084 0x0001555");
 #endif
 
     rtc6715.init(0, 0);
