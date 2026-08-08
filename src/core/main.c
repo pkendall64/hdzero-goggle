@@ -160,6 +160,9 @@ int main(int argc, char *argv[]) {
     settings_init();
     settings_load();
     language_init();
+#ifdef HDZGOGGLE2
+    vclk_phase_init();
+#endif
     pclk_phase_init();
 
     // 2. Initialize communications.
