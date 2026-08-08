@@ -70,7 +70,7 @@ static const uint8_t hdzero_channel_map[ANALOG_CHANNEL_NUM] = {
     9, 0, 0, 0, 0, 0, 0, 0,    // E
     10, 11, 0, 12, 0, 0, 0, 7, // F
     1, 2, 3, 4, 5, 6, 7, 8,    // R
-    0, 0, 0, 0, 0, 0, 0, 0,    // L
+    1, 2, 3, 4, 5, 6, 7, 8     // L
 };
 
 static int get_freq_index(uint16_t const freq) {
@@ -352,8 +352,7 @@ void msp_process_packet() {
                 if (delay == 0) {
                     record_time = 0;
                     dvr_cmd(record_state);
-                }
-                else {
+                } else {
                     switch (record_state) {
                     case DVR_STOP:
                         if (!dvr_is_recording && !record_pending) {
